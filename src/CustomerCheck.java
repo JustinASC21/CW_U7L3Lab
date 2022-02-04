@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 public class CustomerCheck
@@ -18,19 +19,38 @@ public class CustomerCheck
    */
   public double totalPrices()
   {
-    /* to be implemented in part (a) */
+    double total = 0;
+    for (MenuItem mn : check) {
+      total += mn.getPrice();
+    }
+    return total;
   }
   
   /** Returns true if the restaurant’s coupon offer can be applied to this check and
    *  returns false otherwise, as described in part (b) */
   public boolean couponApplies()
   {
-    /* to be implemented in part (b) */
+    if (totalPrices() < 40) {
+      return false;
+    }
+    for (MenuItem mn : check) {
+      if (mn.isDailySpecial()) {
+        return false;
+      }
+    }
+    return true;
   }
   
   /** Calculates the final cost of this check, as described in part (c) */
   public double calculateCheck()
   {
-    /* to be implemented in part (c) */
+    double cost = totalPrices();
+    if (couponApplies()) {
+      cost *= .75;
+    }
+    if (check.size() >= 6) {
+      cost += totalPrices() * .2;
+    }
+    return cost;
   }
 }
